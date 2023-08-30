@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-export const Home = () => {
+export const Home = (isLogged) => {
     const [evenements, setEvenements] = useState([])
     // let position;
 
