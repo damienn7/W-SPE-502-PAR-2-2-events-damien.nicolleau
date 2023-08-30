@@ -1,9 +1,11 @@
-import logo from './logo.svg';
+
 import './App.css';
-import Home from './components/Home';
-import EventDetail from './components/EventDetail';
-import React, { useEffect, useState } from "react";
-import {useLocation, Routes, Route} from 'react-router-dom';
+import './navbar.css';
+import './home.css';
+import { Home } from './pages/Home';
+import { EventDetail } from './pages/EventDetail';
+import { useState } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 function App() {
   const [isLogged,setIsLogged] = useState(null);
@@ -12,7 +14,7 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/home" element={<Home isLogged={isLogged} />} />
+      <Route path="/" element={<Home isLogged={isLogged} />} />
       <Route path="/event/:uid" element={<EventDetail isLogged={isLogged} uid={uid} />} />
     </Routes>
   );
