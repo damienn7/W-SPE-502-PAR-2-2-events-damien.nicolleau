@@ -1,24 +1,20 @@
 import logo from './logo.svg';
 import './App.css';
+import Home from './components/Home';
+import EventDetail from './components/EventDetail';
+import React, { useEffect, useState } from "react";
+import {useLocation, Routes, Route} from 'react-router-dom';
 
 function App() {
+  const [isLogged,setIsLogged] = useState(null);
+  const location = useLocation();
+  const uid = location.pathname.split('/')[3];
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/home" element={<Home isLogged={isLogged} />} />
+      <Route path="/event/:uid" element={<EventDetail isLogged={isLogged} uid={uid} />} />
+    </Routes>
   );
 }
 
