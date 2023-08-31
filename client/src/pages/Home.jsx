@@ -21,11 +21,12 @@ export const Home = (isLogged) => {
                 <div>Conect</div>
             </nav>
             <div className='main_body'>
-                <div className="title_homepage_container">
+                {/* <div className="title_homepage_container">
                     <h1 className='title_homepage'>Evenements</h1>
                     <h1 className='title_homepage'>à</h1>
                     <h1 className='title_homepage'> venir</h1>
-                </div>
+                </div> */}
+                <h1 style={{textAlign:'center',lineHeight:'5rem'}} className='title_homepage'>Evenements <br /> à  <br /> venir</h1>
                 <div className="container_evenements">
                     {evenements.map(evenement => (
                         <div key={evenement.uid} className="evenement">
