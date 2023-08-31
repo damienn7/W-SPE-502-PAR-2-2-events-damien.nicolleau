@@ -20,15 +20,23 @@ export const Home = (isLogged) => {
                 <div>Logo</div>
                 <div>Conect</div>
             </nav>
-            <div>
-                <h1 className='title_homepage'>Evenements à venir</h1>
+            <div className='main_body'>
+                <div className="title_homepage_container">
+                    <h1 className='title_homepage'>Evenements</h1>
+                    <h1 className='title_homepage'>à</h1>
+                    <h1 className='title_homepage'> venir</h1>
+                </div>
                 <div className="container_evenements">
                     {evenements.map(evenement => (
-                        <div key = {evenement.uid} className="evenement">
-                            <h2>{evenement.slug}</h2>
+                        <div key={evenement.uid} className="evenement">
+                            <h2 className='title_evenement_homepage'>{evenement.title_fr}</h2>
                             <div className='image_event_container'>
-                                <img src={evenement.image} alt = "Image_evenement" />
+                                <img src={evenement.image} alt="Image_evenement" />
                             </div>
+
+                            <p className='description_evenement_homepage'>{evenement.description_fr}</p>
+                            <button className='button_evenement_homepage'>En Savoir +</button>
+
                         </div>
                     ))}
                 </div>
