@@ -1,12 +1,20 @@
+/* :root{
+    --bg-color:  #EBC5A0;
+    --bg-card: #9AA9DB;
+    --action-color:#EABD4C;
+    --text-color:#34335F;
+} */
+
+
 .nav{
-    background-color: #999ca3;
+    background-color: var(--bg-color);
     
     display: flex;
     padding:30px;
     padding-top: 35px;
     padding-bottom: 35px;
-    
-    color:white;
+    font-weight: 900;
+    color:var(--text-color);
     justify-content: space-between;
 }
 
