@@ -2,10 +2,13 @@
 import './App.css';
 import './navbar.css';
 import './home.css';
+import './eventd.css';
+import './organize.css';
 import { Home } from './pages/Home';
 import { EventDetail } from './pages/EventDetail';
 import { useState } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
+import { Organize } from './pages/Organize';
 
 function App() {
   const [isLogged,setIsLogged] = useState(null);
@@ -15,7 +18,9 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Home isLogged={isLogged} />} />
-      <Route path="/event/:uid" element={<EventDetail isLogged={isLogged} uid={uid} />} />
+      <Route path="/event/:uid" element={<EventDetail isLogged={isLogged}  />} />
+      <Route path="/organize/:id" element={<Organize />}  />
+      {/* <Route path="/event" element={<EventDetail isLogged={isLogged} />} /> */}
     </Routes>
   );
 }

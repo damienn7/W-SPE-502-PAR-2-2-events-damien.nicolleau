@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import svg from "../header.svg"
 import filter_svg from "../filter.svg"
+import { useNavigate } from 'react-router-dom'
 //TODO:Pagination
 export const Home = (isLogged) => {
     const [evenements, setEvenements] = useState([])
@@ -11,15 +12,16 @@ export const Home = (isLogged) => {
         location: '',
         categorie: 'all'
     })
+    const navigate = useNavigate();
 
 
-
+    // FIXME: Prendre en consideration la position de l'utilisateur pour lui proposer des evenements proche de lui
     useEffect(() => {
         navigator.geolocation.getCurrentPosition((position) => {
             position = position.coords;
             console.log(position);
         });
-        //FIXME: API CONDITIONAL CALL
+        //FIXME: API CONDITIONAL CALL BORDEL DE MERDE JE SAIS PAS CE QUE JE VOULAIS DIRE PAR CA 
         fetch('https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/evenements-publics-openagenda/records')
             .then(res => res.json())
             .then(data => setEvenements(data.results))
@@ -37,19 +39,19 @@ export const Home = (isLogged) => {
         }
         //SI: Il complete que le filtre location
         else if(!filtered_category && filtered_location){
-            let url = `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/evenements-publics-openagenda/records?where=location_name%20like%20%22%25${filtered_location}%25%22%20or%20location_address%20like%20%22%25${filtered_location}%25%22%20or%20location_city%20like%20%22%25${filtered_location}%25%22&limit=2` ;
+            let url = `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/evenements-publics-openagenda/records?where=location_name%20like%20%22%25${filtered_location}%25%22%20or%20location_address%20like%20%22%25${filtered_location}%25%22%20or%20location_city%20like%20%22%25${filtered_location}%25%22&limit=8` ;
             fetch(url).then(res => res.json())
             .then(data => setEvenements(data.results))
         }
         //SI: Il complete que le filtre categorie
         else if(filtered_category && !filtered_location){
-            let url = `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/evenements-publics-openagenda/records?where=longdescription_fr%20like%20%22%25${filtered_category}%25%22%20or%20slug%20like%20%22%25${filtered_category}%25%22&limit=2`     
+            let url = `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/evenements-publics-openagenda/records?where=longdescription_fr%20like%20%22%25${filtered_category}%25%22%20or%20slug%20like%20%22%25${filtered_category}%25%22&limit=8`     
             fetch(url).then(res => res.json())
             .then(data => setEvenements(data.results))
         }
         //SI: Il complete les deux filtres
         else {
-            let url = `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/evenements-publics-openagenda/records?where=location_name%20like%20%22%25${filtered_location}%25%22%20or%20location_address%20like%20%22%25${filtered_location}%25%22%20or%20location_city%20like%20%22%25${filtered_location}%25%22%20and%20longdescription_fr%20like%20%22%25${filtered_category}%25%22&limit=2 `
+            let url = `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/evenements-publics-openagenda/records?where=location_name%20like%20%22%25${filtered_location}%25%22%20or%20location_address%20like%20%22%25${filtered_location}%25%22%20or%20location_city%20like%20%22%25${filtered_location}%25%22%20and%20longdescription_fr%20like%20%22%25${filtered_category}%25%22&limit=8 `
             fetch(url).then(res => res.json())
             .then(data => setEvenements(data.results))
         }
@@ -130,7 +132,7 @@ export const Home = (isLogged) => {
                                             + "-" + evenement.firstdate_begin.split("T")[0].split("-")[1]
                                             + "-" + evenement.firstdate_begin.split("T")[0].split("-")[0]}
                                         </p>
-                                        <button className='button_evenement_homepage'>En Savoir +</button>
+                                        <button onClick={()=>{navigate(`event/${evenement.uid}`)}} className='button_evenement_homepage'>En Savoir +</button>
                                     </div>
                                     <p> {evenement.location_city}</p>
                                 </div>
