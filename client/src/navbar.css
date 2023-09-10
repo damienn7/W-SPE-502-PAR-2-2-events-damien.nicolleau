@@ -1,12 +1,19 @@
+:root{
+    --color-60:#e17570;
+    --color-30:#F0F0F1;
+    --color-10:#15CDCA;
+    --color-text:#437bea;
+}
+
 .nav{
-    background-color: #999ca3;
-    
+    /* background-color: #999ca3; */
+    background-color: var(--color-text);
     display: flex;
     padding:30px;
     padding-top: 35px;
     padding-bottom: 35px;
-    
-    color:white;
+    /* color:white; */
+    color: var(--color-30);
     justify-content: space-between;
 }
 
