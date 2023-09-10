@@ -58,6 +58,32 @@ const Event = sequelize.define('events', {
   timestamps: false,
 });
 
+const User = sequelize.define('users', {
+  pseudo: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  bio: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  avatar: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+},
+  {
+    //remove timestamps
+    timestamps: false,
+  });
+
+
+
+
 // Synchronisez le modèle avec la base de données (créez la table si elle n'existe pas)
 sequelize.sync()
   .then(() => {
@@ -121,6 +147,46 @@ app.get('/events/:id', async (req, res) => {
     res.status(500).json({ message: 'Une erreur s\'est produite lors de la récupération de l\'événement' });
   }
 });
+
+app.put('/events/:id', async (req, res) => {
+  try {
+    // Récupérez l'ID de l'événement à partir des paramètres de la requête
+    const { id } = req.params;
+
+    // Récupérez les données du corps de la demande
+    const { participants } = req.body;
+
+    // Mettez à jour l'événement dans la base de données
+    const event = await Event.update({ participants: JSON.stringify(participants) }, {
+      where: {
+        id,
+      },
+    });
+
+    // Répondez avec un message de succès et l'événement mis à jour
+    res.status(200).json({ message: 'Événement mis à jour avec succès', event });
+  } catch (error) {
+    // En cas d'erreur, renvoyez une réponse d'erreur
+    console.error('Erreur lors de la mise à jour de l\'événement :', error);
+    res.status(500).json({ message: 'Une erreur s\'est produite lors de la mise à jour de l\'événement' });
+  }
+});
+
+
+app.get('/users', async (req, res) => {
+  try {
+    // Récupérez tous les événements de la base de données
+    const users = await User.findAll();
+
+    // Répondez avec les événements
+    res.status(200).json(users);
+  } catch (error) {
+    // En cas d'erreur, renvoyez une réponse d'erreur
+    console.error('Erreur lors de la récupération des utilisateurs :', error);
+    res.status(500).json({ message: 'Une erreur s\'est produite lors de la récupération des utilisateurs' });
+  }
+});
+
 
 
 
