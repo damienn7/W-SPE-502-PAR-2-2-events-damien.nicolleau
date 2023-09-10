@@ -1,39 +1,129 @@
-.head-container-detail{
-    background-color: red;
-    display:flex;
-    gap:40px;
+.head-container-detail {
+
+    display: flex;
+    gap: 40px;
 }
 
-.event-info{
-    
+.event-info {
+
     width: 50%;
-    padding:20px;
+    padding: 20px;
 }
 
-.img-container-detail{
+.img-container-detail {
     background-color: green;
 }
 
-.body-container-detail{
-    background-color: yellow;
+.body-container-detail {
+    background-color: rgba(255, 255, 185, 0.418);
+    padding: 10px;
 }
 
-.head-container-detail, .body-container-detail{
-    margin:0 100px;
+.head-container-detail,
+.body-container-detail {
+    margin: 0 100px;
 }
 
 /* responsive  */
 
 @media screen and (max-width: 768px) {
-    .head-container-detail{
+    .head-container-detail {
         flex-direction: column;
-        gap:0;
-        
+        gap: 0;
+
     }
-    .event-info{
+
+    .event-info {
         width: 100%;
     }
-    .head-container-detail, .body-container-detail{
-        margin:0;
+
+    .head-container-detail,
+    .body-container-detail {
+        margin: 0;
     }
+}
+
+/* Styles pour le conteneur principal */
+.head-container-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Styles pour l'image de l'événement */
+.img-container-detail img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+}
+
+/* Styles pour les informations de l'événement */
+.event-info {
+    text-align: center;
+}
+
+.event-info h1 {
+    font-size: 24px;
+    margin: 0;
+}
+
+.event-info p {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+/* Styles pour le bouton "Organiser une sortie" */
+.event-info button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+}
+
+.event-info button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.event-info button:hover {
+    background-color: #0056b3;
+}
+
+/* Styles pour la description de l'événement */
+.body-container-detail {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.body-container-detail h2 {
+    font-size: 24px;
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.body-container-detail p {
+    font-size: 16px;
+    line-height: 1.5;
+
+}
+
+
+.head-container-detail {
+    background-color: rgba(255, 255, 185, 0.418);
+    width: 100%;
+    margin: 0;
+}
+
+.body-container-detail {
+    background-color: rgba(255, 255, 185, 0.418);
+    width: 100%;
+    margin: 0;
 }

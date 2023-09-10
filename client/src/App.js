@@ -4,6 +4,7 @@ import './navbar.css';
 import './home.css';
 import './eventd.css';
 import './organize.css';
+import './member.css';
 import { Home } from './pages/Home';
 import { EventDetail } from './pages/EventDetail';
 import { useState } from 'react';

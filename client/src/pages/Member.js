@@ -24,7 +24,7 @@ export const Member = () => {
     useEffect(() => {
         if (!localStorage.getItem('user')) {
             navigate('/');
-        } 
+        }
     }, []);
 
     useEffect(() => {
@@ -67,8 +67,8 @@ export const Member = () => {
                 <div className="modal_update"></div>)
             }
 
-            <nav>
-                {/* le meme que sur les autres pages  */}
+            <nav className="nav">
+                <img src="https://leboncoincorporate.com/wp-content/uploads/2022/05/141_Vous-etes-selectionnee_-bienvenue-chez-leboncoin-Groupe_vec-01.svg" onClick={() => navigate('/')} alt="logo" style={{ width: "10rem", height: "auto" }} />
             </nav>
 
             <div className='info_container'>
