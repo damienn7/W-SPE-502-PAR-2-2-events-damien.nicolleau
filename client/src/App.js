@@ -7,6 +7,7 @@ import { EventDetail } from './pages/EventDetail';
 import { useState } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 
+
 function App() {
   const [isLogged,setIsLogged] = useState(null);
   const location = useLocation();
