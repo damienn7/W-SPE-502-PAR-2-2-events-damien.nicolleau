@@ -6,11 +6,17 @@ import axios from 'axios';
 export const Home = (isLogged) => {
     const [evenements, setEvenements] = useState([])
     // let position;
+    var count = 0;
 
-    const [ user, setUser ] = useState([]);
-    const [ profile, setProfile ] = useState([]);
+    const [user, setUser] = useState([]);
+    const [displayS, setDisplayS] = useState([]);
+    const [profile, setProfile] = useState([]);
 
-    const login = GoogleLogin({
+    const display = () => {
+        if (count%2==0) {setDisplayS("show"); }else{setDisplayS('none')}
+    }
+
+    const login = useGoogleLogin({
         onSuccess: (codeResponse) => setUser(codeResponse),
         onError: (error) => console.log('Login Failed:', error)
     });
@@ -18,6 +24,7 @@ export const Home = (isLogged) => {
     const logOut = () => {
         googleLogout();
         setProfile(null);
+        localStorage.removeItem("user");
     };
 
     const responseMessage = (response) => {
@@ -35,20 +42,21 @@ export const Home = (isLogged) => {
             console.log(position);
         });
 
-            if (user) {
-                axios
-                    .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
-                        headers: {
-                            Authorization: `Bearer ${user.access_token}`,
-                            Accept: 'application/json'
-                        }
-                    })
-                    .then((res) => {
-                        setProfile(res.data);
-                        console.table(res.data);
-                    })
-                    .catch((err) => console.log(err));
-            }
+        if (user) {
+            axios
+                .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
+                    headers: {
+                        Authorization: `Bearer ${user.access_token}`,
+                        Accept: 'application/json'
+                    }
+                })
+                .then((res) => {
+                    setProfile(res.data);
+                    localStorage.setItem("user",JSON.stringify(res.data))
+                    console.table(res.data);
+                })
+                .catch((err) => console.log(err));
+        }
         fetch('https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/evenements-publics-openagenda/records')
             .then(res => res.json())
             .then(data => setEvenements(data.results));
@@ -60,21 +68,22 @@ export const Home = (isLogged) => {
         <div>
             <nav className="nav">
                 <div className='logo'>Logo</div>
-                {/* {profile ? (
-                <div>
-                    <img src={profile.picture} alt="user image" />
-                    <h3>User Logged in</h3>
-                    <p>Name: {profile.name}</p>
-                    <p>Email Address: {profile.email}</p>
-                    <br />
-                    <br />
-                    <button onClick={logOut}>Log out</button>
-                </div>
-            ) : ( */}
-                <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
-                {/* // <button onClick={login}>Sign in with Google 🚀 </button>
-            )} */}
-                {/* <div className='menu' onClick={window.location.href = 'http://localhost:3000/connect'}>Connect</div> */}
+                {JSON.parse(localStorage.getItem('user')) ? (
+                    <div  style={{display: "flex",flexDirection:"row", justifyContent:"space-around" }}>
+                        <div style={{display: "flex",flexDirection:"column", marginRight:"20px" }}>
+                            <h3>User Logged in</h3>
+                            <p>Name: {JSON.parse(localStorage.getItem('user')).name}</p>
+                            <p>Email Address: {JSON.parse(localStorage.getItem('user')).email}</p>
+                            <button style={{}} onClick={logOut}>Log out</button>
+                        </div>
+                        <img src={JSON.parse(localStorage.getItem('user')).picture} id='menu' width="50" height="50" style={{ position: "relative" }} onClick={() => { display() }} alt="user image" />
+                    
+      
+                    </div>
+                ) : (
+                    <button onClick={login}>Sign in with Google 🚀 </button>
+                )}
+                {/* <GoogleLogin clientId="97850260613-uh00e7m1ehdr5fnkti01tdmfvktkjv25.apps.googleusercontent.com" onSuccess={responseMessage} onError={errorMessage} /> */}
             </nav>
             <div className='main_body'>
                 {/* <div className="title_homepage_container">
