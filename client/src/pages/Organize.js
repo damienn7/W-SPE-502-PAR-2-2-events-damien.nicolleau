@@ -43,23 +43,23 @@ export const Organize = () => {
     }, [event, user])
 
     useEffect(() => {
-        
-            console.log("je suis l'organisateur", user.id, event.user_id)
-            fetch('http://localhost:4000/users')
-                .then((response) => response.json())
-                .then((data) => {
-                    console.log("userrrrrs",data);
-                    setUsers(data);
-                });
-    
+
+        console.log("je suis l'organisateur", user.id, event.user_id)
+        fetch('http://localhost:4000/users')
+            .then((response) => response.json())
+            .then((data) => {
+                console.log("userrrrrs", data);
+                setUsers(data);
+            });
+
 
     }, []);
 
     //update participant in db
     useEffect(() => {
-        if(!isOrganizator){
+        if (!isOrganizator) {
             let arrwithme = participants.filter((participant) => participant.id === user.id);
-            if(arrwithme.length > 0){
+            if (arrwithme.length > 0) {
                 setHasJoined(true);
             } else {
                 setHasJoined(false);
@@ -87,11 +87,11 @@ export const Organize = () => {
         fetch(`http://localhost:4000/events/${id}`)
             .then((response) => response.json())
             .then((data) => {
-                console.log("hmmm",data);
+                console.log("hmmm", data);
                 setEvent(data);
                 setParticipants(JSON.parse(data.participants) || []);
-                console.log("hmmmm",data.participants)
-                if(data.user_id == user.id){
+                console.log("hmmmm", data.participants)
+                if (data.user_id == user.id) {
                     setOrganisateur(user);
                 } else {
                     fetch(`http://localhost:4000/users/${data.user_id}`)
@@ -131,7 +131,7 @@ export const Organize = () => {
         setParticipants([...participants, user]);
     }
 
-    const leaveEvent = () =>{
+    const leaveEvent = () => {
         setParticipants(participants.filter((participant) => participant.id !== user.id));
     }
 
@@ -153,7 +153,7 @@ export const Organize = () => {
                     <div className="modal-content">
                         {users.map((user) => {
                             if (user.id === organisateur.id) return null;
-                            else if (participants.find((participant) => participant.id == organisateur.id)) return null;
+                            else if (participants.find((participant) => participant.id === user.id)) return null;
                             else {
                                 return (
                                     <div className="user" onClick={() => {
@@ -161,37 +161,35 @@ export const Organize = () => {
                                         setParticipants([...participants, user])
                                     }
                                     }>
-                                        <div>{user.username}</div>
-                                        <div>{user.email}</div>
+                                        <p>{user.username}</p>
+                                        <p>{user.email}</p>
                                     </div>
                                 )
                             }
 
 
                         })}
-                        <button onClick={() => setModal(false)}>Close</button>
+                        <button id="close-modal" onClick={() => setModal(false)}><span className='bar1'>|</span><span className='bar2'>|</span></button>
                     </div>
                 </div>)}
-
             <nav className="nav">
-                <div>Logo</div>
-                <div>Conect</div>
+                <img src="https://leboncoincorporate.com/wp-content/uploads/2022/05/141_Vous-etes-selectionnee_-bienvenue-chez-leboncoin-Groupe_vec-01.svg" onClick={() => navigate('/')} alt="logo" style={{ width: "10rem", height: "auto" }} />
             </nav>
             <div className="organize-template">
                 <div className="event-info">
                     <h1>{event.title}</h1>
                     <p>{event.location}</p>
-                    {!isOrganizator && !hasJoined &&(
-                        <button onClick = {()=>joinEvent()}>Join</button>
+                    {!isOrganizator && !hasJoined && (
+                        <button onClick={() => joinEvent()}>Join</button>
                     )}
                     {
                         !isOrganizator && hasJoined && (
-                            <button onClick = {leaveEvent}>Leave</button>
+                            <button onClick={leaveEvent}>Leave</button>
                         )
                     }
                     {
                         isOrganizator && (
-                            <button onClick = {deleteEvent}>Delete event</button>
+                            <button onClick={deleteEvent}>Delete event</button>
                         )
                     }
                 </div>
@@ -201,31 +199,31 @@ export const Organize = () => {
                 </div>
                 <div className="participants">
                     {isOrganizator && (
-                        <button onClick={openModal}>Add</button>
+                        <button className='open-modal' onClick={openModal}>Add</button>
                     )}
-                   
+
                     {/* Your participants component goes here */}
                     <div>
                         <p>{organisateur.pseudo}</p>
                         <img width="50" src={organisateur.avatar} alt="avatar" />
                     </div>
-                    {
-                      Array.isArray(participants) &&  participants.map((participant) => {
-                            console.log("aa", participant)
-                            return (
-                                <div>
-                                    <p> {participant.psuedo?participant.psuedo : participant.pseudo}</p>
-                                    <img width="50" src={participant.avatar} alt="avatar" />
-                                    {/* //TODO: CODE: delete participant from db */}
-                                    {isOrganizator && (
-                                        <button onClick={() => deleteParticipant(participant.id)}> X</button>
-                                    )}
+                    <div className='add-participant'>
+                        {
+                            Array.isArray(participants) && participants.map((participant) => {
+                                console.log("aa", participant)
+                                return (
+                                    <div className='participant'>
+                                        {isOrganizator && (
+                                            <button className='delete' onClick={() => deleteParticipant(participant.id)}><span className='bar1'>|</span><span className='bar2'>|</span></button>
+                                        )}
+                                        <p className='pseudo'> {participant.pseudo}</p>
+                                        <img className='avatar-participant' width="50" src={participant.avatar} alt="avatar" />
+                                    </div>
+                                )
 
-                                </div>
-                            )
-
-                        })
-                    }
+                            })
+                        }
+                    </div>
                 </div>
                 <div className="chat">
                     {/* Your chat component goes here */}

@@ -1,3 +1,10 @@
+:root{
+    --color-60:#e17570;
+    --color-30:#F0F0F1;
+    --color-10:#15CDCA;
+    --color-text:#437bea;
+}
+
 .organize-template {
     display: flex;
     flex-direction: column;
@@ -7,6 +14,138 @@
     gap: 20px;
     height: 100vh;
     /* Adjust the height as needed */
+}
+
+.modal{
+    min-height: 300px;
+    height: auto;
+    max-width: 80%;
+    min-width: 50%;
+    width: auto;
+    left: 29%;
+    top: 29%;
+    background-color: var(--color-60);
+    color: var(--color-30);
+    border-radius: 20px;
+    position: absolute;
+    padding: 3rem ;
+    margin: auto;
+    z-index: 2000;
+}
+
+.modal-content, .user>p{
+    line-height: 40px;
+    cursor: pointer;
+}
+
+.bar1{
+    position: absolute;
+    top: -5px;
+    left: 29px;
+    rotate: 45deg;
+    color: white;
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.bar2{
+    top: -5px;
+    position: absolute;
+    rotate:-45deg;
+    color: white;
+    font-size: 30px;
+    font-weight: 500;
+}
+
+#close-modal{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 20px;
+    background-color: transparent;
+    border: none;
+    width: 50px;
+    cursor: pointer;
+}
+
+.open-modal{
+    background-color: var(--color-text);
+    color: var(--color-30);
+    border: none;
+    letter-spacing: 3px;
+    padding: 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    max-height: 40px;
+}
+
+.avatar-participant{
+    position: absolute;
+    max-width: 80px;
+    width: auto;
+    height: auto;
+    border-radius: 50%;
+    z-index: 100;
+    left: 1.5rem;
+}
+
+.pseudo{
+    text-transform: uppercase;
+    left: 0;
+    top: 80px;
+    position: absolute;
+    color: var(--color-60);
+    letter-spacing: 3px;
+    font-weight: 600;
+    font-size: 22px;
+    z-index: 200;
+}
+
+.delete{
+    position: absolute;
+    top: 0px;
+    z-index: 600;
+    right: -110px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 50%;
+    border: none;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.delete > .bar1, .delete > .bar2 {
+    color: var(--color-60);
+    font-weight: 800;
+}
+
+.delete > .bar1{
+     left: 15px;
+     top: 0px;
+}
+
+.delete > .bar2 {
+    top: 0px;
+    left: 11px;
+}
+
+.delete:hover{
+    background-color: var(--color-text);
+}
+
+.participant{
+    position: relative;
+}
+
+.add-participant{
+    width: 500%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    overflow-x: scroll;
+    height: 200px;
 }
 
 .map,
@@ -32,11 +171,14 @@
 
     /* Participants styles */
     display: flex;
+    flex-direction: row;
+    justify-content: space-around;
     gap: 10px;
     flex-wrap: wrap;
     background-color: blue;
     width: 100%;
-    height: 100px;
+    height: 300px;
+    
 }
 
 .chat {

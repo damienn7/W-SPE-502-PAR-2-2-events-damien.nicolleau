@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react'
+import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 import svg from "../header.svg"
 import filter_svg from "../filter.svg"
 import { useNavigate } from 'react-router-dom'
+
+
+
 //TODO:Pagination
 export const Home = (isLogged) => {
     const [evenements, setEvenements] = useState([])
@@ -14,6 +19,37 @@ export const Home = (isLogged) => {
     })
     const navigate = useNavigate();
 
+    //DAMS: Google Auth
+    const [user, setUser] = useState([]);
+    const [displayS, setDisplayS] = useState([]);
+    const [profile, setProfile] = useState([]);
+
+    var count = 0;
+
+    const display = () => {
+        if (count % 2 == 0) { setDisplayS("show"); } else { setDisplayS('none') }
+    }
+
+    const login = useGoogleLogin({
+        onSuccess: (codeResponse) => setUser(codeResponse),
+        onError: (error) => console.log('Login Failed:', error)
+    });
+
+    const logOut = () => {
+        googleLogout();
+        setProfile(null);
+        localStorage.removeItem("user");
+    };
+
+    const responseMessage = (response) => {
+        console.log(response);
+        console.log(response);
+        setUser(response)
+    };
+
+    const errorMessage = (error) => {
+        console.log(error);
+    };
 
     // FIXME: Prendre en consideration la position de l'utilisateur pour lui proposer des evenements proche de lui
     useEffect(() => {
@@ -77,12 +113,54 @@ export const Home = (isLogged) => {
         setFilterModal(!filterModal)
     }
 
+    //DAMS: Google Auth
+    useEffect(() => {
+        if (user) {
+            axios
+                .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
+                    headers: {
+                        Authorization: `Bearer ${user.access_token}`,
+                        Accept: 'application/json'
+                    }
+                })
+                .then((res) => {
+                    // localStorage.setItem("user", JSON.stringify(res.data))
+                    console.table(res.data);
+                    fetch("http://localhost:4000/users",{
+                        method:"post",
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            pseudo: res.data.given_name,
+                            email:res.data.email,
+                            bio:"",
+                            avatar:res.data.picture
+                        }),
+                    })
+                    .then((data)=>{return data.json()})
+                    .then((data)=>{
+                        localStorage.setItem("user",JSON.stringify(data.user))
+                        setProfile(data.user);
+                    })
+                    .catch(
+                        (e)=>{
+                            console.error("erreur : "+e);
+                        }
+                        )
+                })
+                .catch((err) => console.log(err));
+        }
+       
+
+    }, [user])
+
+
+
     return (
-        <div className={(transitionClass) ? 'body_class': '' }>
+        <div className={(transitionClass) ? 'body_class' : ''}>
             {/* TODO: Filter Modal */}
             {
                 filterModal ? (
-                    <div className={ (transitionClass) ? (' ' + 'filter_modal ' +  transitionClass) :('filter_modal')  }>
+                    <div className={(transitionClass) ? (' ' + 'filter_modal ' + transitionClass) : ('filter_modal')}>
                         <label htmlFor="location">Location</label>
                         <input type="text" id="location" placeholder="city" />
                         <label htmlFor="categorie">Categorie</label>
@@ -104,15 +182,46 @@ export const Home = (isLogged) => {
                     </div>
                 ) : (<>
                     <nav className="nav">
-                        <div>Logo</div>
-                        <div>Conect</div>
+                        <img src="https://leboncoincorporate.com/wp-content/uploads/2022/05/141_Vous-etes-selectionnee_-bienvenue-chez-leboncoin-Groupe_vec-01.svg" onClick={navigate('/')} alt="logo" style={{width:"10rem",height:"auto"}} />
+                        {JSON.parse(localStorage.getItem('user')) ? (
+                            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-around" }}>
+                                <div style={{ display: "flex", flexDirection: "column", marginRight: "20px" }}>
+                                    <h3>User Logged in</h3>
+                                    <p>Name: {JSON.parse(localStorage.getItem('user')).pseudo}</p>
+                                    <p>Email Address: {JSON.parse(localStorage.getItem('user')).email}</p>
+                                    <button style={{}} onClick={logOut}>Log out</button>
+                                </div>
+                                <img src={JSON.parse(localStorage.getItem('user')).avatar} id='menu' width="50" height="50" style={{ position: "relative" }} onClick={() => { display() }} alt="user image" />
+                            </div>
+                        ) : (
+                            <button onClick={login}>Sign in with Google 🚀 </button>
+                        )}
+                        {/*MODAL INSCRIPTION*/}
+                        {
+                            // modalInscription && <div>
+
+                            // </div>
+                        }
+                        {/* <GoogleLogin clientId="97850260613-uh00e7m1ehdr5fnkti01tdmfvktkjv25.apps.googleusercontent.com" onSuccess={responseMessage} onError={errorMessage} /> */}
                     </nav>
 
                     <div className='main_body'>
 
-                        <div className='header_image_container'>
-                            <img className='svg' src={svg} />
-                            <h1 style={{ textAlign: 'center', lineHeight: '5rem', margin: 0 }} className='title_homepage'>Evenements <br /> à  <br /> venir</h1>
+                        <div className='header_image_container' style={{ textAlign: 'center', lineHeight: '5rem', margin: 0, zIndex: "1000", borderBottomLeftRadius: "40px" }}>
+                            <img className='svg' style={{position:"relative",zIndex:"100",objectFit:"cover",width:"350px"}} src={svg} />
+                            <h1 style={{ position:"relative",zIndex:"2000",textAlign: 'center', lineHeight: '5rem', margin: 0 }} className='title_homepage'>Evenements <br /> à  <br /> venir</h1>
+                        </div>
+                        {/* <h1 style={{ textAlign: 'center', lineHeight: '5rem', margin: 0, zIndex: "1000", borderBottomLeftRadius: "40px" }} className='title_homepage'>Évènements <br /> à  <br /> venir</h1> */}
+                        <div className="bg_top"></div>
+                        <div class="container">
+                            <div class="carrousel">
+                                {evenements.slice(0, 5).map(evenement => {
+                                    return (
+                                        <article class="card" style={{ height: "300px", backgroundImage: "url('" + evenement.image + "')" }}>
+                                            <h1 className='carrou_h1' style={{ zIndex: "1000", fontWeight: "600", padding: "30px" }}>{evenement.title_fr.substr(0, 10) + " ..."}</h1>
+                                        </article>)
+                                })}
+                            </div>
                         </div>
 
                         <div className="container_evenements">
@@ -132,7 +241,7 @@ export const Home = (isLogged) => {
                                             + "-" + evenement.firstdate_begin.split("T")[0].split("-")[1]
                                             + "-" + evenement.firstdate_begin.split("T")[0].split("-")[0]}
                                         </p>
-                                        <button onClick={()=>{navigate(`event/${evenement.uid}`)}} className='button_evenement_homepage'>En Savoir +</button>
+                                        <button onClick={() => { navigate(`event/${evenement.uid}`) }} className='button_evenement_homepage'>En Savoir +</button>
                                     </div>
                                     <p> {evenement.location_city}</p>
                                 </div>
@@ -140,7 +249,6 @@ export const Home = (isLogged) => {
                         </div>
                     </div>
                 </>
-
                 )
             }
 
@@ -149,3 +257,4 @@ export const Home = (isLogged) => {
 }
 
 
+//USESTATE PROBLEMS a regler

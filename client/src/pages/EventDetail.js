@@ -8,13 +8,15 @@ export const EventDetail = (isLogged) => {
     const [event, setEvent] = useState({});
     const { uid } = useParams();
     const navigate = useNavigate();
-    
+
     const [blocked, setBlocked] = useState(false);
 
     useEffect(() => {
-        if(!localStorage.getItem('users')){
-           setBlocked(true);
-        } 
+        if (!localStorage.getItem('user')) {
+            setBlocked(true);
+        }else {
+            setBlocked(false);
+        }
     }, []);
 
 
@@ -39,7 +41,7 @@ export const EventDetail = (isLogged) => {
                 location: event.location_city,
                 date: event.firstdate_begin,
                 event_uid: event.uid,
-                user_id: 2
+                user_id: JSON.parse(localStorage.getItem('user')).id,
             }),
         })
             .then((response) => response.json())
@@ -58,33 +60,33 @@ export const EventDetail = (isLogged) => {
 
 
     return (
-            <>
-                <nav className="nav">
-                    <div>Logo</div>
-                    <div>Conect</div>
-                </nav>
-                <div className="head-container-detail">
-                    <div className="img-container-detail">
-                        <img src={event.image} alt="event" />
-                    </div>
-                    <div className="event-info">
-                        <h1>{event.title}</h1>
-                        {/* <p className='card_datetime'>{event.firstdate_begin.split("T")[0].split("-")[2]
+        <>
+            <nav className="nav">
+                <img src="https://leboncoincorporate.com/wp-content/uploads/2022/05/141_Vous-etes-selectionnee_-bienvenue-chez-leboncoin-Groupe_vec-01.svg" onClick={() => navigate('/')} alt="logo" style={{ width: "10rem", height: "auto" }} />
+
+            </nav>
+            <div className="head-container-detail">
+                <div className="img-container-detail">
+                    <img src={event.image} alt="event" />
+                </div>
+                <div className="event-info">
+                    <h1>{event.title}</h1>
+                    {/* <p className='card_datetime'>{event.firstdate_begin.split("T")[0].split("-")[2]
                             + "-" + event.firstdate_begin.split("T")[0].split("-")[1]
                             + "-" + event.firstdate_begin.split("T")[0].split("-")[0]}
                         </p> */}
-                        <p>location: {event.location_city}</p>
-                        {/* i removed the blocked here put it back */}
-                        <button   onClick={createEvent}>Organiser une sortie</button>
-                    </div>
+                    <p>location: {event.location_city}</p>
+                    {/* i removed the blocked here put it back */}
+                    <button disabled={blocked?true:false} onClick={createEvent}>Organiser une sortie</button>
                 </div>
-                <div className="body-container-detail">
-                    <h2>Description</h2>
-                    <div dangerouslySetInnerHTML={{ __html: event.longdescription_fr }} >
+            </div>
+            <div className="body-container-detail">
+                <h2>Description</h2>
+                <div dangerouslySetInnerHTML={{ __html: event.longdescription_fr }} >
 
-                    </div>
                 </div>
-            </>
-        );
-    }
+            </div>
+        </>
+    );
+}
 

@@ -1,20 +1,19 @@
-/* :root{
-    --bg-color:  #EBC5A0;
-    --bg-card: #9AA9DB;
-    --action-color:#EABD4C;
-    --text-color:#34335F;
-} */
-
+:root{
+    --color-60:#e17570;
+    --color-30:#F0F0F1;
+    --color-10:#15CDCA;
+    --color-text:#437bea;
+}
 
 .nav{
-    background-color: var(--bg-color);
-    
+    /* background-color: #999ca3; */
+    background-color: var(--color-text);
     display: flex;
+    flex-wrap: wrap;
     padding:30px;
     padding-top: 35px;
     padding-bottom: 35px;
-    font-weight: 900;
-    color:var(--text-color);
+    /* color:white; */
+    color: var(--color-30);
     justify-content: space-between;
 }
-

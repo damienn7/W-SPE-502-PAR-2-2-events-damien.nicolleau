@@ -1,22 +1,130 @@
 :root{
-    --bg-color:  #9AA9DB ;
-    --bg-card: #EBC5A0;
-    --action-color:#34335F;
-    --text-color:#black;
+    --color-60:#e17570;
+    --color-30:#F0F0F1;
+    --color-10:#15CDCA;
+    --color-text:#437bea;
 }
 
+.bg_top{
+    background-color: var(--color-text);
+    z-index: -100;
+    position: absolute;
+    top: 500px;
+    height: 300px;
+    width: 100%;
+}
 
-.container_evenements {
-    /* font-size: 5px; */
-   
+/*
+CARROUSSEL*/
+
+* {
+    font-family: "Verdana", sans-serif;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    letter-spacing: 0px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+    margin: 0;
+}
+
+/* body {
+    margin: 2rem;
+    background-color: #212123;
+} */
+
+.container {
+    width: 100%;
+    padding: 2rem;
+    background-color: var(--color-text);
+}
+
+.carrousel {
+    display: grid;
+    grid-auto-flow: column;
+    scroll-behavior: auto;
+    gap: 1.2rem;
+    overflow-y: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    color: var(--color-60);
+}
+
+.carrousel::-webkit-scrollbar {
+    display: none;
+}
+
+.card {
+    scroll-snap-align: start;
+    border-radius: 30px;
+    min-height: 200px;
+    min-width: 400px;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* gap:20px; */
+    z-index: 100;
+}
+
+.carrou_h1{
+    text-align: end;
+    color: var(--color-text);
+    transition: 300ms linear;
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+}
+
+/* .carrou_h1:hover{
+    color: var(--color-60);
+} */
+
+.carrou_h1{
+    filter: blur(0px);
+    z-index: 1100;
+    position: relative;
+}
+
+.card:nth-child(1) {
+    background: linear-gradient(-229deg, #FBD52D, #EF3A7B);
+}
+
+.card:nth-child(2) {
+    background: linear-gradient(-229deg, #FF70AF, #5FA8F5);
+}
+
+.card:nth-child(3) {
+    background: linear-gradient(-229deg, #0cebeb, #29ffc6);
+}
+
+.card:nth-child(4) {
+    background: linear-gradient(-229deg, #88F7F9, #048FFF);
+}
+
+.card:nth-child(5) {
+    background: linear-gradient(-229deg, #0093E9, #80D0C7);
+}
+
+.card:nth-child(6) {
+    background: linear-gradient(-229deg, #cf91ff, #5782F5);
+}
+
+.card:nth-child(7) {
+    background: linear-gradient(-229deg, #642B73, #C6426E);
+}
+
+/*
+END CARROUSSEL
+*/
+
+.container_evenements {   
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
     color: black;
-    background-color: var(--bg-color);
-    /* overflow: hidden; */
+    background-color: var(--color-60);
+    margin: auto;
+    padding: 1rem;
 }
 
 .evenement:nth-child(1){
@@ -25,12 +133,15 @@
 
 .evenement {
     width:80%;
-    margin-top: 60px;
-    
+    max-width: 350px;
+    margin: 1rem;
+    margin-top: 120px;
+    border-radius: 10px;
     padding: 20px 10px 0 10px;
     padding-bottom: 20px;
-    background-color: white;
-    border: 2px solid var(--bg-card); 
+    /* background-color: white; */
+    background-color: var(--color-30);
+    border: 2px solid var(--color-text);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -45,40 +156,51 @@
     justify-content:center;
     margin:0 5px;
     width:100%;
-    height: 200px;
+    height: 300px;
 }
 
 .image_event_container img {
     width: 100%;
-    
+    object-fit: cover;
+    height: 300px;
+    cursor: pointer;
 }
 
 .title_homepage{
     font-size:3rem;
+    background-color: white;
+    color: var(--color-text);
+    border-bottom-left-radius:60px ;
 }
 
 .title_homepage_container{
     color: var(--action-color);
     display: flex;
     flex-direction: column;
-    
     justify-content: center;
     align-items: center;
-    margin-top:30px;
+    /* margin-top:30px; */
 }
 
 h2{
     font-size:1.4rem;
     margin:0;
+    color: black;
 }
 
 .button_evenement_homepage{
     padding:14px;
-    background-color: var(--action-color);
+    background-color: var(--color-60);
+    border: none;
     color:white;
     border-radius: 5px;
     align-self: flex-end;
-    border: 2px solid var(--action-color);
+    cursor: pointer;
+    transition: 300ms linear;
+}
+
+.button_evenement_homepage:hover{
+    scale: 1.1;
 }
 
 .title_evenement_homepage{
@@ -97,6 +219,8 @@ h2{
 
 .header_image_container{
     position:relative;
+    height: 500px;
+    z-index: 2000;
 }
 
 .card_last_part{
@@ -113,10 +237,13 @@ h2{
 
 .filter_container{
     background-color: #607AD7;
-    display:flex;
+    /* display:flex;
     justify-content: space-between;
-    align-self: start;
-    width: 20%;
+    align-self: start; */
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    width: 120px;
     margin-top: 20px;
     border-radius: 0% 30px 30px 0%;
     padding:10px;
