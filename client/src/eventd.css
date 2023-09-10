@@ -1,0 +1,39 @@
+.head-container-detail{
+    background-color: red;
+    display:flex;
+    gap:40px;
+}
+
+.event-info{
+    background-color: blue;
+    width: 50%;
+    padding:20px;
+}
+
+.img-container-detail{
+    background-color: green;
+}
+
+.body-container-detail{
+    background-color: yellow;
+}
+
+.head-container-detail, .body-container-detail{
+    margin:0 100px;
+}
+
+/* responsive  */
+
+@media screen and (max-width: 768px) {
+    .head-container-detail{
+        flex-direction: column;
+        gap:0;
+        
+    }
+    .event-info{
+        width: 100%;
+    }
+    .head-container-detail, .body-container-detail{
+        margin:0;
+    }
+}
