@@ -20,6 +20,7 @@ export const Organize = () => {
 
     //update participant in db
     useEffect(() => {
+        console.log("participants", participants[0]?.pseudo)
         fetch(`http://localhost:4000/events/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -30,10 +31,10 @@ export const Organize = () => {
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
-               
+
             });
     }, [participants]);
-       
+
 
 
 
@@ -49,26 +50,13 @@ export const Organize = () => {
             });
     }, [id]);
 
-    const openModal = () => { 
+    const openModal = () => {
         setModal(true);
     }
 
 
 
-    // const ConfirmParticipant = () => {
-    //     fetch(`http://localhost:4000/events/${id}`, {
-    //         method: 'PUT',
-    //         headers: { 'Content-Type': 'application/json' },
-    //         body: JSON.stringify({
-    //             participants: participants
-    //         }),
-    //     })
-    //         .then((response) => response.json())    
-    //         .then((data) => {
-    //             console.log(data);
-    //             setModal(false);
-    //         });
-    // }     
+
 
     return (
         <>
@@ -76,17 +64,26 @@ export const Organize = () => {
                 <div className="modal">
                     <div className="modal-content">
                         {users.map((user) => {
-                            return (
-                                <div className="user" onClick={() => setParticipants([...participants, user])}>
-                                    <div>{user.username}</div>
-                                    <div>{user.email}</div>
-                                </div>
-                            )
+                            if (user.id === 1) return null;
+                            else if (participants.find((participant) => participant.id === user.id)) return null;
+                            else {
+                                return (
+                                    <div className="user" onClick={() => {
+                                        console.log("pp",participants)
+                                        setParticipants([...participants, user])}
+                                        }>
+                                        <div>{user.username}</div>
+                                        <div>{user.email}</div>
+                                    </div>
+                                )
+                            }
+
+
                         })}
-                        <button onClick={()=>setModal(false)}>Close</button>
+                        <button onClick={() => setModal(false)}>Close</button>
                     </div>
-                </div> )}
-                        
+                </div>)}
+
             <nav className="nav">
                 <div>Logo</div>
                 <div>Conect</div>
@@ -106,7 +103,13 @@ export const Organize = () => {
                     <div>l'organisateur</div>
                     {
                         participants.map((participant) => {
-                            <div>omg</div>
+                            return(
+                                <div>
+                                    <p> {participant.pseudo}</p>
+                                    <img width="50" src={participant.avatar} alt="avatar" />
+                                </div>
+                            )
+                            
                         })
                     }
                 </div>

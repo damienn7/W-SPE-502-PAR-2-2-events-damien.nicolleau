@@ -148,6 +148,7 @@ app.get('/events/:id', async (req, res) => {
   }
 });
 
+// mettre a jour les participants
 app.put('/events/:id', async (req, res) => {
   try {
     // Récupérez l'ID de l'événement à partir des paramètres de la requête
@@ -155,7 +156,7 @@ app.put('/events/:id', async (req, res) => {
 
     // Récupérez les données du corps de la demande
     const { participants } = req.body;
-
+   
     // Mettez à jour l'événement dans la base de données
     const event = await Event.update({ participants: JSON.stringify(participants) }, {
       where: {
