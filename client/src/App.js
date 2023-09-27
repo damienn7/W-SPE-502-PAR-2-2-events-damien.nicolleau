@@ -12,6 +12,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import { Organize } from './pages/Organize';
 import { Member } from './pages/Member';
 
+
 function App() {
   const [isLogged,setIsLogged] = useState(null);
   const location = useLocation();

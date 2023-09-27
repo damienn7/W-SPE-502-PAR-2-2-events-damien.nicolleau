@@ -46,7 +46,6 @@ export const Home = (isLogged) => {
         console.log(response);
         setUser(response)
     };
-
     const errorMessage = (error) => {
         console.log(error);
     };
@@ -60,8 +59,10 @@ export const Home = (isLogged) => {
         //FIXME: API CONDITIONAL CALL BORDEL DE MERDE JE SAIS PAS CE QUE JE VOULAIS DIRE PAR CA 
         fetch('https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/evenements-publics-openagenda/records')
             .then(res => res.json())
-            .then(data => setEvenements(data.results))
-    }, [])
+            .then(data => setEvenements(data.results));
+
+
+    }, [user])
 
     useEffect(() => {
 
